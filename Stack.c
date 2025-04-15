@@ -1,69 +1,84 @@
-//Creating a stack
 #include <stdio.h>
-#define SIZE 5
 
-struct stack {
-    int data[SIZE];
-    int top;
-};
+#define MAX_SIZE 100
 
-// Function prototypes
-void push(struct stack *p, int d);
-int pop(struct stack *p);
-void display(struct stack s);
+int stack[MAX_SIZE], top = -1;
+
+void push();
+void pop();
+void show();
 
 int main() {
-    struct stack s1, s2;
-    int t;
+    int choice,n;
 
-    s1.top = -1;
+    printf("Enter the number of elements in stack (up to %d): ", MAX_SIZE);
+    scanf("%d", &n);
 
-    // Push elements onto the stack
-    push(&s1, 5);
-    push(&s1, 1);
-    push(&s1, 3);
-    push(&s1, 7);
-    push(&s1, 11);
+    printf("*STACK OPERATIONS USING ARRAY");
+    printf("\n--------------\n");
 
-    // Display the stack
-    display(s1);
+    do {
+        printf("\nChoose one from the below options...\n");
+        printf("1. Push\n2. Pop\n3. Show\n4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
 
-    // Pop an element from the stack
-    while ((t = pop(&s1)) != -1) {
-        printf("Popped: %d\n", t);
-    }
+        switch (choice) {
+            case 1:
+                push();
+                break;
+            case 2:
+                pop();
+                break;
+            case 3:
+                show();
+                break;
+            case 4:
+                printf("Exiting...\n");
+                break;
+            default:
+                printf("Please choose a valid option.\n");
+        }
+    } while (choice != 4);
 
     return 0;
 }
 
-void push(struct stack *p, int d) {
-    if (p->top < SIZE - 1) {
-        p->top++;
-        p->data[p->top] = d;
-    } else {
-        printf("Stack is full.\n");
+void push() {
+    int item;
+
+    if (top == MAX_SIZE - 1) {
+        printf("Stack Overflow! Cannot push element.\n");
+        return;
     }
+
+    printf("Enter the element to push: ");
+    scanf("%d", &item);
+
+    stack[++top] = item;
+    printf("Element %d pushed to the stack.\n", item);
 }
 
-int pop(struct stack *p) {
-    int d = -1;
-    if (p->top == -1) {
-        printf("Stack is empty.\n");
-    } else {
-        d = p->data[p->top];
-        p->top--;
+void pop() {
+    if (top == -1) {
+        printf("Stack Underflow! Cannot pop element.\n");
+        return;
     }
-    return d;
+
+    printf("Element %d popped from the stack.\n", stack[top--]);
 }
 
-void display(struct stack s) {
-    int i;
-    if (s.top == -1) {
+void show() {
+	int i;
+    if (top == -1) {
         printf("Stack is empty.\n");
-    } else {
-        for (i = s.top; i >= 0; i--) {
-            printf("Pushed:%d\n", s.data[i]);
-        }
+        return;
     }
+
+    printf("Elements in the stack: ");
+    for (i = 0; i <= top; ++i) {
+        printf("%d ", stack[i]);
+    }
+    printf("\n");
 }
 

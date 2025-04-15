@@ -1,58 +1,84 @@
 #include <stdio.h>
 
-#define SIZE 5
+#define MAX 50
 
-struct Queue {
-    int data[SIZE];
-    int front, rear;
-};
+int queue_array[MAX];
+int rear = -1;
+int front = -1;
 
-void insert(struct Queue *t, int d);
-int delq(struct Queue *t);
-void display(struct Queue q);
+// Function prototypes
+void insert();
+void delete();
+void display();
 
 int main() {
-    struct Queue q;
-    q.front = q.rear = 0;
-    insert(&q, 5);
-    insert(&q, 7);
-    insert(&q, 9);
-    
-    printf("%d ", delq(&q));
-    printf("%d ", delq(&q));
-    printf("%d ", delq(&q));
-    printf("%d ", delq(&q));
+    int choice;
+
+    while (1) {
+        printf("1. Insert\n");
+        printf("2. Delete\n");
+        printf("3. Display\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                insert();
+                break;
+            case 2:
+                delete();
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                return 0;
+            default:
+                printf("Invalid choice\n");
+        }
+    }
 
     return 0;
 }
 
-void insert(struct Queue *t, int d) {
-    if (t->rear == SIZE) {
-        printf("Queue is full\n");
+void insert() {
+    int add_item;
+
+    if (rear == MAX - 1)
+        printf("Queue Overflow\n");
+    else {
+        if (front == -1)
+            front = 0;
+
+        printf("Insert the element in the queue: ");
+        scanf("%d", &add_item);
+
+        rear = rear + 1;
+        queue_array[rear] = add_item;
+    }
+}
+
+void delete() {
+    if (front == -1 || front > rear) {
+        printf("Queue Underflow\n");
         return;
+    } else {
+        printf("Deleted Element is: %d\n", queue_array[front]);
+        front = front + 1;
     }
-    t->data[t->rear] = d;
-    t->rear++;
 }
 
-void display(struct Queue q){
-	int i;
-	for(i=q.front;i<q.rear;i++){
-		printf("%d",q.data[i]);
-	}	
-}
+void display() {
+    int i;
 
-int delq(struct Queue *t) {
-    int d = -1;
-    if (t->front == t->rear) {
+    if (front == -1)
         printf("Queue is empty\n");
-        return d;
+    else {
+        printf("Queue is: ");
+        for (i = front; i <= rear; i++)
+            printf("%d ", queue_array[i]);
+        printf("\n");
     }
-    d = t->data[t->front];
-    t->front++;
-    if (t->front == t->rear) {
-        t->front = t->rear = 0;
-    }
-    return d;
 }
 
