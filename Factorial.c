@@ -1,14 +1,19 @@
+//Factorial of a given number
+
 #include<stdio.h>
 
-int main()
-{
-    int i,n,fact=1;
-    printf("Enter the number: ");
-    scanf("%d",&n);
-    for(i=1;i<=n;i++)
-    {
-     fact*=i;
-    }
-    printf("The factorial is:%d",fact);
-    return 0;
+main(){
+	int n,result;
+	printf("Enter a number:");
+	scanf("%d",&n);
+	result=fact(n);
+	printf("Factorial of %d is %d",n,result);
+}
+
+int fact(int n){
+	if(n<=1)
+	  return 1;
+	  
+	else
+	  return n*fact(n-1);
 }
